@@ -1,11 +1,12 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, Text, TouchableOpacity } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import useCartStore from '@/store/cartStore';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -17,6 +18,7 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const {items} = useCartStore();
 
   return (
     <Tabs
@@ -33,16 +35,9 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
+              <TouchableOpacity style={{ marginRight: 20}}>
+                <Text style={{fontSize: 20, fontWeight: "bold"}}>{items}</Text>
+              </TouchableOpacity>
             </Link>
           ),
         }}
@@ -52,6 +47,13 @@ export default function TabLayout() {
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerRight: () => (
+            <Link href="/modal" asChild>
+              <TouchableOpacity style={{ marginRight: 20}}>
+                <Text style={{fontSize: 20, fontWeight: "bold"}}>{items}</Text>
+              </TouchableOpacity>
+            </Link>
+          ),
         }}
       />
     </Tabs>
